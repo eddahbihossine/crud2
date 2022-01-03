@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>this is js library </title>
+
+</head>
+<h1>HI THIS IS JS LIBRARY</h1>
+<div id="message"></div>
+
+<body>
+    <style>
+        table, td {
+          border: 1px solid black;
+        }
+        </style>
+
+<form id="form"  value="submit">
+<fieldset style="display: flex;flex-direction: column;padding: 3%;"  >
+    <legend style="font-size: 25px;">TYPE A FOOKING BOOK !</legend>
+    <div class="fgroup">
+<label for="title"  >title</label>
+<input type="text" id="title">
+</div>
+<div class="fgroup">
+<label for="author">author</label>
+<input type="text" id="author">
+</div>
+<div class="fgroup">
+<label for="price">price</label>
+<input type="number" id="price">
+</div>
+<div class="fgroup">
+<label for="pub">publication date</label>
+<input type="date" id="pub-date">
+</div>
+<div class="fgroup">
+<label for="langue">language</label>
+<input type="text" id="lang">
+</div>
+<div class="fgroup">
+<label for="type">type</label>
+<input type="text" id="type">
+</div>
+<div class="fgroup">
+<label for="email">author's email</label>
+<input type="email" id="mail">
+</div>
+<button type="submit"id ="sumbit"style="margin: 2%;"> ENTER A FOOKING BOOK</button>
+
+</fieldset>    
+</form>
+<table id="tableau">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>author</th>
+            <th>price</th>
+            <th>publication date</th>
+            <th>language</th>
+            <th>type</th>
+            <th>author's email</th>
+            <th> options</th>
+
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        
+    </tbody>
+</table>
+<script >
+    const formEmp = document.getElementById('form')
+    const title = document.getElementById('title');
+    const author = document.getElementById('author');
+    const price = document.getElementById('price');
+    const date = document.getElementById('pub-date');
+    const language = document.getElementById('lang');
+    const type = document.getElementById('type');
+    const  email = document.getElementById('mail');
+    const tablebody = document.getElementById('tablebody');
+      
+    class book {
+        constructor(id,title, author,price,date,language,type,email){
+            this.id= id;
+            this.title = title;
+            this.author= author;
+            this.price = price; 
+            this.date = date;
+            this.language = language;
+            this.type = type;
+            this.email= email;
+
+        }
+        detailouvrage() {
+            const tradd = document.createElement('tr');
+            tradd.innerHTML =`<tr class="rowadd">
+                                <td>${this.title}</td>
+                                <td>${this.author}</td>
+                                <td>${this.price}</td>
+                                <td>${this.date}</td>
+                                <td>${this.language}</td>
+                                <td>${this.type}</td>
+                                <td>${this.email}</td>
+                                <td>
+                                    <button value="edit" >edit</button>
+                                    <button value="delete">delete</button>
+                                    <button value ="print" onclick="window.print()">print</button>
+                                </td>
+                                </tr>`
+        tablebody.appendChild(tradd);
+        return(this);
+
+            
+        }
+        storedata(){
+            const alldata = JSON.parse(localStorage.getItem('Book')) ?? []
+            alldata.push({id:this.id,title:this.title,author:this.author,price:this.price,date:this.date,language:this.language,type:this.type,email:this.email})
+            localStorage.setItem('Book',JSON.stringify(alldata))
+        }
+       
+
+    }
+    formEmp.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        let id = Math.floor(Math.random()*1000000)
+        const newBook = new book(id,title.value,author.value,price.value,date.value,language.value,type.value,email.value);
+        newBook.detailouvrage().storedata();
+        title.value='';
+        author.value='';
+        price.value ='';
+        date.value = '';
+        language.value = '';
+        type.value = '';
+        email.value = '';
+
+
+        
+    })
+
+</script>
+    
+</body>
+</html>
